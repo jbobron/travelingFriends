@@ -26,13 +26,32 @@ var App = React.createClass({
         data: thiz.state.data
       })
     })
+    $(".Amos").click(function () {
+    $(this).next('div').fadeToggle("fast", function () {
+    });
+});
 
   },
+  markVisited: function(index, name){
+    id = getIdForName(name);
+    this.state.data[id].destinations[index].visited = !this.state.data[id].destinations[index].visited
+    this.setState({ data: this.state.data })
+    console.log(this.state.data[id].destinations[index].visited)
+  },
+  deleteFromList: function(index, name){
+    id = getIdForName(name);
+    this.state.data[id].destinations.splice(index, 1);
+    this.setState({ data: this.state.data })
+  },
   render: function(){
+    var listStyle = {
+      'list-style-type': 'none'
+    }
     return (
       <div>
-        <h1> Travelers! </h1>
+        <h1> Travel Notes </h1>
         <form id="forminput">
+          <label> New Destination</label><br></br>
           <input id="destinationToAdd" type="text" />
           <select id="dropdownname" name="person">
             <option value="1">Amos</option>
@@ -41,14 +60,24 @@ var App = React.createClass({
           </select>
           <input type="submit" value="Add Destination"></input>
         </form>
-        <ul>
-          <FriendsContainer data={this.state.data} />
+        <ul style={listStyle}>
+          <FriendsContainer 
+            deleteFromList={this.deleteFromList} 
+            markVisited={this.markVisited} 
+            data={this.state.data} 
+          />
         </ul>
       </div>
     )
   }
 });
-
+function getIdForName(name){
+  var id;
+  if(name === "Amos") id = 1;
+  if(name === "Andy") id = 2;
+  if(name === "Evie") id = 3;
+  return id;
+}
 function loadInitialData(context){
   thiz = context;
   $.ajax({
