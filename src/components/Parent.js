@@ -1,70 +1,32 @@
 var React = require('react/addons');
 var addons = require('react-addons');
 
-var ShowList = require('./Child');
+var FriendsContainer = require('./Child')['friendsContainer'];
 
-var FriendsContainer = React.createClass({
+var App = React.createClass({
   getInitialState: function(){
     return {
-      friends: [{name:'Amos', locations:[]}, {name:'Andy', locations:[]}, {name:'Evie', locations:[]}],
-      data: []
+      data: {
+        1:{name:"Amos", destinations:[], _token:"dHVhbkBmbGV4cG9ydC5jb206amF2YTRldmE"}, 
+        2:{name:"Andy", destinations:[], _token:"ffjds9f0ifjFJISDJSFJfj932e312fdjslf"}, 
+        3:{name:"Evie", destinations:[], _token:"qQOEccxzcoisa34334ynurt33nkeiwrw342"}
+      }
     }
   },
   componentDidMount: function(){
+    loadInitialData(this);
     thiz = this;
-    $.ajax({
-      type: "GET",
-      url:'https://young-beyond-8772.herokuapp.com/travelers',
-      dataType:"json",
-      headers: {
-        Authorization: "Token token=dHVhbkBmbGV4cG9ydC5jb206amF2YTRldmE",
-        "Content-Type": "application/json"
-      },
-      success: function(result){
-        for(var i = 0; i < result.length; i++){
-          var obj = {};
-          obj['destinations'] = result[i].destinations
-          obj['name'] = result[i].name
-          if(obj['name'] === "amos") obj['id'] = 1;
-          if(obj['name'] === "andy") obj['id'] = 2;
-          if(obj['name'] === "evie") obj['id'] = 3;
-          console.log(obj)
-          thiz.setState({data: thiz.state.data.concat([obj])});
-          console.log(thiz.state.data)
-        }
-
-      }
-    })
     $("#forminput").submit(function(event){
       event.preventDefault();
-      var name = $("#dropdownname").val();
+      var id = $("#dropdownname").val();
       var destination = $("#destinationToAdd").val();
-      var id = null;
-      var token = null;
-      console.log(name, destination, typeof(destination))
-      //make post request here to get token for post request
-      var objForUpdate = { data: [ {name:"amos", id:1, "destinations":[]}, {name:"andy", id:2, destinations:[]}, {name:"evie", id:3,destinations:[]} ] };
-      console.log(objForUpdate.data[0])
-      $.ajax({
-        type: "POST",
-        url:'https://young-beyond-8772.herokuapp.com/auth',
-        dataType:"json",
-        data: { name: name },
-        success: function(data){
-          console.log("Success")
-          id = data.id;
-          token = data.token;
-          // objForUpdate.data[id-1].destinations: {$push: [destination]};
-          // var obj = {0:{destinations}}
-          var newData = React.addons.update( thiz.state.data, {0: {'destinations':{$push:[destination]}}});
-          var data = React.addons.update( thiz.state, newData )
-          thiz.setState( data );
-        }
+      var obj = {name: destination, visited: false};
+      thiz.state.data[id].destinations.push(obj)
+      thiz.setState({
+        data: thiz.state.data
       })
-
     })
-    console.log("STATE:", this.state)
-    
+
   },
   render: function(){
     return (
@@ -73,16 +35,41 @@ var FriendsContainer = React.createClass({
         <form id="forminput">
           <input id="destinationToAdd" type="text" />
           <select id="dropdownname" name="person">
-            <option value="amos">Amos</option>
-            <option value="andy">Andy</option>
-            <option value="evie">Evie</option>
+            <option value="1">Amos</option>
+            <option value="2">Andy</option>
+            <option value="3">Evie</option>
           </select>
           <input type="submit" value="Add Destination"></input>
         </form>
-        <ShowList data={this.state.data} />
+        <ul>
+          <FriendsContainer data={this.state.data} />
+        </ul>
       </div>
     )
   }
 });
 
-module.exports = FriendsContainer;
+function loadInitialData(context){
+  thiz = context;
+  $.ajax({
+    type: "GET",
+    url:'https://young-beyond-8772.herokuapp.com/travelers',
+    dataType:"json",
+    headers: {
+      Authorization: "Token token=dHVhbkBmbGV4cG9ydC5jb206amF2YTRldmE",
+      "Content-Type": "application/json"
+    },
+    success: function(result){
+      for(var i = 0; i < result.length; i++){
+        var newDestArr = result[i].destinations
+        thiz.state.data[i+1].destinations = newDestArr
+        thiz.setState({
+          data: thiz.state.data
+        })
+      }
+    }
+  })
+}
+
+
+module.exports = App;
