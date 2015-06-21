@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var addons = require('react-addons');
+var StyleSheet = require('react-style');
 
 var FriendsContainer = require('./Child')['friendsContainer'];
 
@@ -52,15 +53,15 @@ var App = React.createClass({
         <h1> Travel Notes </h1>
         <form id="forminput">
           <label> New Destination</label><br></br>
-          <input id="destinationToAdd" type="text" />
-          <select id="dropdownname" name="person">
+          <input styles={VisitedStyle.input} id="destinationToAdd" type="text" />
+          <select className="form-control" id="dropdownname" name="person">
             <option value="1">Amos</option>
             <option value="2">Andy</option>
             <option value="3">Evie</option>
           </select>
-          <input type="submit" value="Add Destination"></input>
+          <input styles={VisitedStyle.button} type="submit" value="Add Destination"></input>
         </form>
-        <ul style={listStyle}>
+        <ul className='list-group' style={listStyle}>
           <FriendsContainer 
             deleteFromList={this.deleteFromList} 
             markVisited={this.markVisited} 
@@ -100,5 +101,23 @@ function loadInitialData(context){
   })
 }
 
+var VisitedStyle = StyleSheet.create({
+    button:{
+      'background': '#333333',
+      'border-radius': '4.5px',
+      'color':'white',
+      'width':'100%',
+      'margin-top':'5px',
+      'margin-bottom':'5px',
+      'padding': '5px'
+    },
+    input:{
+      'margin-top':'5px',
+      'margin-bottom':'5px',
+      'padding': '5px',
+      'border-radius': '4.5px',
+      'width': '100%'
+    }
+});
 
 module.exports = App;

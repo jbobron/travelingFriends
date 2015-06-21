@@ -19,7 +19,7 @@ var Friend = React.createClass({
   render: function() {
     var list = [];
     for(var i = 0; i < this.props.data.destinations.length; i++){
-      list.push(<li> 
+      list.push(<li className='list-group-item'> 
                   <Location id={i}
                     name= {this.props.data.name} 
                     deleteFromList= {this.props.deleteFromList}  
@@ -32,8 +32,8 @@ var Friend = React.createClass({
     }
     return (
       <div>
-        <h3>{this.props.data.name}</h3>
-        <ul style={listStyle}>
+        <h3 className='list-group-item-heading list-group-item active'>{this.props.data.name}</h3>
+        <ul className='list-group' style={listStyle}>
           {list}
         </ul>
       </div>
@@ -47,13 +47,14 @@ var Location = React.createClass({
       <div>
         <p styles={this.props.data.visited ? VisitedStyle.normal : ""}>
         <input
+            styles={VisitedStyle.checkbox}
             checked={this.props.data.visited ? true: false}
             type="checkbox" 
             name="isVisited"
             onClick={this.props.markVisited.bind(null, this.props.id, this.props.name)}  
             value=""/>
             {this.props.data.name}
-          <button onClick={this.props.deleteFromList.bind(null, this.props.id, this.props.name)}>x</button></p>
+          <button styles={VisitedStyle.button} onClick={this.props.deleteFromList.bind(null, this.props.id, this.props.name)}>x</button></p>
       </div>
     )
   }
@@ -61,11 +62,23 @@ var Location = React.createClass({
 
 var VisitedStyle = StyleSheet.create({
     normal: {
-        'color': 'gray',
-        'text-decoration': 'line-through'  
+      'color': 'gray',
+      'text-decoration': 'line-through'  
+    },
+    checkbox: {
+      'display':'inline-block',
+      'width':'19px',
+      'height':'19px',
+      'margin':'-1px 4px 0 0',
+      'vertical-align':'middle',
+      'background':'url(check_radio_sheet.png) left top no-repeat',
+      'cursor':'pointer'
+    },
+    button:{
+      'float':'right'
     }
+    
 });
-
 
 module.exports = {
   location: Location,
