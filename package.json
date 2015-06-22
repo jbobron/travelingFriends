@@ -1,7 +1,7 @@
 {
-  "name": "React-Starter-Kit",
+  "name": "Flexport Demo",
   "version": "0.0.0",
-  "description": "Get started with react fast!",
+  "description": "Traveling Friends",
   "author": "Jake Obron <jbobron@gmail.com>",
   "bin": {
     "module-name": "./bin/module-name"
@@ -9,7 +9,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbobron/reactStarterKit"
+    "url": "https://github.com/jbobron/travelingFriends.git"
   },
   "keywords": [],
   "dependencies": {
