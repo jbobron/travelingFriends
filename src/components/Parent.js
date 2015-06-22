@@ -27,11 +27,6 @@ var App = React.createClass({
         data: thiz.state.data
       })
     })
-    $(".Amos").click(function () {
-    $(this).next('div').fadeToggle("fast", function () {
-    });
-});
-
   },
   markVisited: function(index, name){
     id = getIdForName(name);

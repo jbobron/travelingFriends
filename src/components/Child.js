@@ -20,7 +20,7 @@ var Friend = React.createClass({
     var list = [];
     for(var i = 0; i < this.props.data.destinations.length; i++){
       list.push(<li className='list-group-item'> 
-                  <Location id={i}
+                  <Location id= {i}
                     name= {this.props.data.name} 
                     deleteFromList= {this.props.deleteFromList}  
                     markVisited= {this.props.markVisited} 
@@ -75,9 +75,10 @@ var VisitedStyle = StyleSheet.create({
       'cursor':'pointer'
     },
     button:{
-      'float':'right'
-    }
-    
+      'float':'right',
+      'background-color':'white',
+      'border':'white'
+    } 
 });
 
 module.exports = {
