@@ -1,5 +1,4 @@
-var React = require('react/addons');
-var addons = require('react-addons');
+var React = require('react');
 var StyleSheet = require('react-style');
 
 var FriendsContainer = require('./Child')['friendsContainer'];
